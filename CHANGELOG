@@ -1,0 +1,18 @@
+gExec: ChangeLog
+------------------------------------------------------------------------------
+
+[%%VERSION] <%%EMAIL> ( %%DATE )
+* History now removes double entries.
+* Rewrite of cmd_run. It's Better Now(tm).
+* Program exit status no longer used as a means to determine if the execution
+  was succesful. In other words: It's now correct.
+* Tab-completion now also completes arguments instead of only the command.
+* Settings file support (~/.gexec) containing termemu, su and history length.
+  Automatically created if non-existant
+* Clicking the Ok button with the default command (at start-up) still active
+  caused a segfault. Fixed.
+* Some memory leaks fixed. (Don't worry, plenty are still left)
+* GNU GPL Header added to source.
+
+[0.1] <%%EMAIL> ( Tue Apr 13 23:02:46 CEST 2004 )
+* Initial release.
