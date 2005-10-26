@@ -16,6 +16,7 @@ Table of contents
 		2.1. Requirements
 		2.2. Compiling
 		2.3. Installation
+		2.4. Running
 	3. Configuration
 	4. Feedback / Contributing.
 		4.2. Known bugs
@@ -68,6 +69,22 @@ Table of contents
 	just that. It copies the binary to /usr/local/bin. That's it. Nothing more,
 	nothing less.
 	
+2.4. Running
+
+	From the --help output:
+
+	Usage:
+	  gexec [OPTION...] - Interactive run dialog
+
+	Help Options:
+	  -?, --help               Show help options
+	  --help-all               Show all help options
+	  --help-gtk               Show GTK+ Options
+
+	Application Options:
+	  -k, --keepopen           Keep gExec open after executing a command
+	  --display=DISPLAY        X display to use
+
 3. Configuration
 
 	gExec has a few configuration options which are stored in the file
@@ -106,9 +123,6 @@ Table of contents
 
 	This program is full of known bugs. Here are some of them:
 	
-	* Tons of memory leaks.
-	* Nothing is cleaned up on execution of a command.
-	* No use of fork to execute command.
 	* Running a command in both a terminal and as root fails (depending
 	  on the commands used).
 	* Usage of deprecated gtk_combo.
@@ -128,6 +142,10 @@ Table of contents
 	* Me.
 	* Anonymous guy who was really Mafkees!
 	
+	The following people have suggested useful features:
+
+	* Jose Oswaldo (--keepopen option)
+
 5. Legal stuff
 
 	gExec is Copyright by Ferry Boender, licensed under the General Public

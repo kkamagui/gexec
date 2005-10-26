@@ -1,7 +1,12 @@
 gExec: ChangeLog
 ------------------------------------------------------------------------------
 
-[%%VERSION] <%%EMAIL> ( %%DATE )
+[0.3] <%%EMAIL> ( %%DATE )
+* Bugfixes.
+* Addition of the --keepopen option which will keep gExec open after running a
+  command.
+
+[0.2] <%%EMAIL> ( %%DATE )
 * History now removes double entries.
 * Rewrite of cmd_run. It's Better Now(tm).
 * Program exit status no longer used as a means to determine if the execution
