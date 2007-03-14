@@ -193,10 +193,10 @@ struct _settings *settings_read() {
 
 			tokens = g_strsplit(line, "=", 2);
 
-			if (strcmp(tokens[0], "prog_termemu") == 0 && tokens[1] != NULL) {
+			if (strcmp(tokens[0], "cmd_termemu") == 0 && tokens[1] != NULL) {
 				settings->cmd_termemu = strdup(tokens[1]);
 			}
-			if (strcmp(tokens[0], "prog_su") == 0 && tokens[1] != NULL) {
+			if (strcmp(tokens[0], "cmd_su") == 0 && tokens[1] != NULL) {
 				settings->cmd_su = strdup(tokens[1]);
 			}
 			if (strcmp(tokens[0], "history_max") == 0 && tokens[1] != NULL) {
