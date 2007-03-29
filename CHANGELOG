@@ -1,6 +1,10 @@
 gExec: ChangeLog
 ------------------------------------------------------------------------------
 
+[0.4] <%%EMAIL> ( %%DATE )
+* Applied patch by Corey Wringt. prog_ renamed to cmd_ in config writing. Fixes debian bug #413614.
+* Added gexec.1 manual page. Taken from Debian package.
+
 [0.3] <%%EMAIL> ( %%DATE )
 * Bugfixes.
 * Addition of the --keepopen option which will keep gExec open after running a
