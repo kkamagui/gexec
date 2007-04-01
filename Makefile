@@ -19,3 +19,4 @@ clean:
 	-rm *.o
 install:
 	-cp gexec /usr/local/bin
+	-cp gexec.1 /usr/local/man/man1/
