@@ -20,6 +20,10 @@ it have a history, which is quite annoying. There are a bunch of
 third-party program lauchers available, but at the moment of writing none
 of them do what I want. So came about gExec.
 
+### Screenshots
+
+*   [Screenshots](https://bitbucket.org/fboender/gexec/wiki/Screenshots)
+
 
 Installation
 ------------
