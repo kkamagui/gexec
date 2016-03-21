@@ -1,6 +1,9 @@
 gExec
 =====
 
+![Status: Stable](https://img.shields.io/badge/status-stable-green.svg)
+![Activity: Maintenance only](https://img.shields.io/badge/activity-maintenance%20only-yellowgreen.svg)
+
 
 Introduction
 ------------
