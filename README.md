@@ -20,9 +20,7 @@ it have a history, which is quite annoying. There are a bunch of
 third-party program lauchers available, but at the moment of writing none
 of them do what I want. So came about gExec.
 
-### Screenshots
-
-*   [Screenshots](https://bitbucket.org/fboender/gexec/wiki/Screenshots)
+![](https://raw.githubusercontent.com/fboender/gexec/master/contrib/screenshot.png)
 
 
 Installation
@@ -102,7 +100,7 @@ Feedback / Contributing
 Questions? Problems? Ideas? Visit this gExec's project page, where you can
 submit bugs/feature requests/questions, at:
 
-https://bitbucket.org/fboender/gexec/	
+https://github.com/fboender/gexec
 	
 ### Known bugs
 
