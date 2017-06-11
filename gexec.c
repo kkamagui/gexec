@@ -619,12 +619,15 @@ int main(int argc, char *argv[]) {
 			task);
 	gtk_box_pack_start(GTK_BOX(hbox_options), chk_term, FALSE, FALSE, 0);
 	
-	chk_su = gtk_check_button_new_with_mnemonic("Run as _root");
-	gtk_signal_connect(GTK_OBJECT(chk_su),
-			"toggled",
-			GTK_SIGNAL_FUNC(ui_chk_su_cb_toggled),
-			task);
-	gtk_box_pack_start(GTK_BOX(hbox_options), chk_su, FALSE, FALSE, 0);
+	// Display "Run as root" checkbox only if not running as root
+	if (geteuid() != 0) {
+		chk_su = gtk_check_button_new_with_mnemonic("Run as _root");
+		gtk_signal_connect(GTK_OBJECT(chk_su),
+				"toggled",
+				GTK_SIGNAL_FUNC(ui_chk_su_cb_toggled),
+				task);
+		gtk_box_pack_start(GTK_BOX(hbox_options), chk_su, FALSE, FALSE, 0);
+	}
 
 	// Buttons 
 	hbox_buttons = gtk_hbox_new(FALSE, 0);
