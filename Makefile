@@ -1,8 +1,6 @@
 CC = gcc
-LIBS = `pkg-config --libs gtk+-2.0`
-INCS = `pkg-config --cflags gtk+-2.0`
-#LIBS = `gtk-config --libs`
-#INCS = `gtk-config --cflags`
+LIBS = `pkg-config --libs gtk+-3.0`
+INCS = `pkg-config --cflags gtk+-3.0`
 
 FLAGS = -Wall -g
 
@@ -15,8 +13,8 @@ gexec.o: gexec.c
 autocomp.o: autocomp.c autocomp.h
 	$(CC) -c autocomp.c $(INCS) $(FLAGS)
 clean:
-	-rm gexec
-	-rm *.o
+	-rm -f gexec
+	-rm -f *.o
 install:
 	-cp gexec /usr/local/bin
 	-cp gexec.1 /usr/local/man/man1/
