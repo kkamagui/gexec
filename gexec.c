@@ -486,11 +486,11 @@ void ui_combo_command_cb_activate(GtkWidget *widget, struct _task *task) {
 gboolean ui_combo_command_cb_key_press_event(GtkWidget *widget, 
 		GdkEventKey *event, struct _task *task) {
 
-	if (event->keyval == GDK_Escape) {
+	if (event->keyval == GDK_KEY_Escape) {
 		// Abort gexec
 		gtk_main_quit();
 	} else
-	if (event->keyval == GDK_Tab) {
+	if (event->keyval == GDK_KEY_Tab) {
 		// Tab completion 
 
 		if (task->tabcomp_matches == NULL) {
@@ -507,7 +507,7 @@ gboolean ui_combo_command_cb_key_press_event(GtkWidget *widget,
 			sprintf(new_entry, "%s%s", task->tabcomp_command, (char *)task->tabcomp_current_match->data);
 			
 			gtk_entry_set_text(GTK_ENTRY(widget), new_entry);
-			gtk_entry_set_position(GTK_ENTRY(widget), -1);
+			gtk_editable_set_position(GTK_EDITABLE(widget), -1);
 
 			free(new_entry);
 		} else {
@@ -553,6 +553,7 @@ int main(int argc, char *argv[]) {
 	GtkWidget *chk_term, *chk_su;
 	GtkWidget *lbl_command;
 	GtkWidget *combo_command;
+	GtkWidget *combo_command_entry;
 	GtkWidget *vbox_main, *hbox_command, *hbox_options, *hbox_buttons;
 	GtkWidget *btn_ok, *btn_cancel;
 	
@@ -579,73 +580,82 @@ int main(int argc, char *argv[]) {
 	win_main = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(win_main), "gExec");
 	gtk_window_set_default_size(GTK_WINDOW(win_main), 400, 77);
-	gtk_signal_connect(GTK_OBJECT(win_main),
+	g_signal_connect(G_OBJECT(win_main),
 			"delete_event",
-			GTK_SIGNAL_FUNC(ui_win_main_cb_delete_event),
+			G_CALLBACK(ui_win_main_cb_delete_event),
 			NULL);
 
 	// Command 
-	hbox_command = gtk_hbox_new(FALSE, 0);
+	hbox_command = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	lbl_command = gtk_label_new("Run command:");
-	combo_command = gtk_combo_new();
-	gtk_combo_disable_activate(GTK_COMBO(combo_command));
+	combo_command = gtk_combo_box_text_new_with_entry();
+	combo_command_entry = gtk_bin_get_child(GTK_BIN(combo_command));
+	GValue activates_default_val = G_VALUE_INIT;
+	g_value_init(&activates_default_val, G_TYPE_BOOLEAN);
+	g_value_set_boolean(&activates_default_val, FALSE);
+	g_object_set_property(G_OBJECT(combo_command_entry), "activates-default", &activates_default_val);
+	g_value_unset(&activates_default_val);
 
-	gtk_signal_connect(GTK_OBJECT(GTK_COMBO(combo_command)->entry),
+	g_signal_connect(G_OBJECT(GTK_ENTRY(combo_command_entry)),
 			"activate",
-			GTK_SIGNAL_FUNC(ui_combo_command_cb_activate),
+			G_CALLBACK(ui_combo_command_cb_activate),
 			task);
-	gtk_signal_connect(GTK_OBJECT(GTK_COMBO(combo_command)->entry),
+	g_signal_connect(G_OBJECT(GTK_ENTRY(combo_command_entry)),
 			"key-press-event",
-			GTK_SIGNAL_FUNC(ui_combo_command_cb_key_press_event),
+			G_CALLBACK(ui_combo_command_cb_key_press_event),
 			task);
-	gtk_signal_connect(GTK_OBJECT(GTK_COMBO(combo_command)->entry),
+	g_signal_connect(G_OBJECT(GTK_ENTRY(combo_command_entry)),
 			"changed",
-			GTK_SIGNAL_FUNC(ui_combo_command_cb_changed),
+			G_CALLBACK(ui_combo_command_cb_changed),
 			task);
 
 	if (task->history != NULL) {
-		gtk_combo_set_popdown_strings(GTK_COMBO(combo_command), task->history);
+		GList *elem = task->history;
+		while (elem != NULL) {
+			gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo_command), NULL, (char *) elem->data);
+			elem = elem->next;
+		}
 	}
 	
 	gtk_box_pack_start(GTK_BOX(hbox_command), lbl_command, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox_command), combo_command, TRUE, TRUE, 0);
 
 	// Options 
-	hbox_options = gtk_hbox_new(TRUE, 5);
+	hbox_options = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
 	chk_term = gtk_check_button_new_with_mnemonic("Run in _terminal emulator");
-	gtk_signal_connect(GTK_OBJECT(chk_term),
+	g_signal_connect(G_OBJECT(chk_term),
 			"toggled",
-			GTK_SIGNAL_FUNC(ui_chk_term_cb_toggled),
+			G_CALLBACK(ui_chk_term_cb_toggled),
 			task);
 	gtk_box_pack_start(GTK_BOX(hbox_options), chk_term, FALSE, FALSE, 0);
 	
 	chk_su = gtk_check_button_new_with_mnemonic("Run as _root");
-	gtk_signal_connect(GTK_OBJECT(chk_su),
+	g_signal_connect(G_OBJECT(chk_su),
 			"toggled",
-			GTK_SIGNAL_FUNC(ui_chk_su_cb_toggled),
+			G_CALLBACK(ui_chk_su_cb_toggled),
 			task);
 	gtk_box_pack_start(GTK_BOX(hbox_options), chk_su, FALSE, FALSE, 0);
 
 	// Buttons 
-	hbox_buttons = gtk_hbox_new(FALSE, 0);
+	hbox_buttons = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
-	btn_ok = gtk_button_new_from_stock(GTK_STOCK_OK);
-	btn_cancel = gtk_button_new_from_stock(GTK_STOCK_CANCEL);
+	btn_ok = gtk_button_new_with_mnemonic("_OK");
+	btn_cancel = gtk_button_new_with_mnemonic("_Cancel");
 
-	gtk_signal_connect(GTK_OBJECT(btn_ok),
+	g_signal_connect(G_OBJECT(btn_ok),
 			"clicked",
-			GTK_SIGNAL_FUNC(ui_btn_ok_cb_clicked),
+			G_CALLBACK(ui_btn_ok_cb_clicked),
 			task);
 	
-	gtk_signal_connect(GTK_OBJECT(btn_cancel),
+	g_signal_connect(G_OBJECT(btn_cancel),
 			"clicked",
-			GTK_SIGNAL_FUNC(ui_btn_cancel_cb_clicked),
+			G_CALLBACK(ui_btn_cancel_cb_clicked),
 			NULL);
 	gtk_box_pack_start(GTK_BOX(hbox_buttons), btn_ok, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox_buttons), btn_cancel, TRUE, TRUE, 0);
 
 	// Main 
-	vbox_main = gtk_vbox_new(FALSE, 0);
+	vbox_main = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	
 	gtk_box_pack_start(GTK_BOX(vbox_main), hbox_command, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox_main), hbox_options, TRUE, TRUE, 0);
